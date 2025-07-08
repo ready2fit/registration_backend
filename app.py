@@ -46,6 +46,7 @@ class Member(BaseModel):
     fractures: str
     fractureDescription: Optional[str]
     agreed_to_terms: bool
+    photo: Optional[str]  # base64-encoded image string
     submitted_at: datetime
 
 ###############################################################################
@@ -68,7 +69,7 @@ def ensure_table_exists():
         weight             FLOAT,
         occupation         VARCHAR(100),
         address            VARCHAR(255),
-        email              VARCHAR(255) UNIQUE,
+        email              VARCHAR(255),
         phone              VARCHAR(50),
         alternate_phone    VARCHAR(50),
         looking_for        VARCHAR(100),
@@ -79,6 +80,7 @@ def ensure_table_exists():
         fractures           VARCHAR(3),
         fractureDescription VARCHAR(255),
         agreed_to_terms    BOOLEAN,
+        photo              LONGTEXT,
         submitted_at       DATETIME
     )  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     """
@@ -104,12 +106,12 @@ def add_member():
         (name, dob, age, date_of_joining, height, weight, occupation, address,
          email, phone, alternate_phone, looking_for, membership_mode,
          end_of_membership, physical_problems, physicalDescription,
-         fractures, fractureDescription, agreed_to_terms, submitted_at)
+         fractures, fractureDescription, agreed_to_terms, photo, submitted_at)
     VALUES
         (%s, %s, %s, %s, %s, %s, %s, %s,
          %s, %s, %s, %s, %s,
          %s, %s, %s,
-         %s, %s, %s, %s)
+         %s, %s, %s, %s, %s)
     """
     values = (
         member.name,
@@ -131,6 +133,7 @@ def add_member():
         member.fractures,
         member.fractureDescription,
         member.agreed_to_terms,
+        member.photo,
         member.submitted_at,
     )
 
@@ -176,6 +179,4 @@ def get_all_members():
     return jsonify(rows)
 
 if __name__ == "__main__":
-    # app.run(debug=True, port=5000)
-    app.run(host="0.0.0.0", port=5000) 
-
+    app.run(debug=True, port=5000)
