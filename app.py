@@ -90,8 +90,13 @@ def ensure_table_exists():
 ###############################################################################
 # Flask app
 ###############################################################################
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)  # This enables CORS for all origins and all routes
+
 ensure_table_exists()
+
 
 @app.route("/members", methods=["POST"])
 def add_member():
