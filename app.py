@@ -90,6 +90,7 @@ def ensure_table_exists():
 ###############################################################################
 # Flask app
 ###############################################################################
+# {"error":"(1054, \"Unknown column 'photo' in 'field list'\")"}
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -107,7 +108,7 @@ def add_member():
         return jsonify({"error": ve.errors()}), 400
 
     insert_sql = """
-    INSERT INTO members
+    INSERT INTO memberss
         (name, dob, age, date_of_joining, height, weight, occupation, address,
          email, phone, alternate_phone, looking_for, membership_mode,
          end_of_membership, physical_problems, physicalDescription,
@@ -155,7 +156,7 @@ def add_member():
 
 @app.route("/members/<int:member_id>", methods=["GET"])
 def get_member(member_id):
-    select_sql = "SELECT * FROM members WHERE id = %s"
+    select_sql = "SELECT * FROM memberss WHERE id = %s"
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute(select_sql, (member_id,))
         row = cur.fetchone()
@@ -171,7 +172,7 @@ def get_member(member_id):
 
 @app.route("/list", methods=["GET"])
 def get_all_members():
-    select_sql = "SELECT * FROM members"
+    select_sql = "SELECT * FROM memberss"
     with get_conn() as conn, conn.cursor() as cur:
         cur.execute(select_sql)
         rows = cur.fetchall()
@@ -184,4 +185,4 @@ def get_all_members():
     return jsonify(rows)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000) 
+    app.run(debug=True, port=5000)
