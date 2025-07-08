@@ -59,7 +59,7 @@ def get_conn():
 def ensure_table_exists():
     """Run once at startup to create the members table."""
     create_sql = """
-    CREATE TABLE IF NOT EXISTS members (
+    CREATE TABLE IF NOT EXISTS memberss (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name               VARCHAR(255),
         dob                DATE,
@@ -185,5 +185,5 @@ def get_all_members():
     return jsonify(rows)
 
 if __name__ == "__main__":
-    # app.run(debug=True, port=5000)
+    # app.run(debug=True, port=5000)/
      app.run(host="0.0.0.0", port=5000) 
